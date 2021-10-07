@@ -21,7 +21,7 @@ class _LoggedPageState extends State<LoggedPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AddNewNew(),
+        AddNewNew(save: (title){Navigator.of(context).pop();},),
         News()
       ],
     );
