@@ -57,6 +57,7 @@ class _NewsState extends State<News> {
                 Map<String, dynamic> data =
                 document.data()! as Map<String, dynamic>;
                 return ListTile(
+                  leading: CircleAvatar(backgroundImage: NetworkImage(data['image']),),
                   title: Text(data['name']),
                   subtitle: Text(data['topDescription']),
                 );

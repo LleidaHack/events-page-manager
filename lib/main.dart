@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: Text('Lleidahack - EventManager'),
       ),
       body: ListView(
         children: <Widget>[
