@@ -2,11 +2,6 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'src/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'src/widgets.dart';
 import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:firebase_auth/firebase_auth.dart'; // new
 import 'package:provider/provider.dart'; // new
@@ -40,7 +35,6 @@ class App extends StatelessWidget {
         ),
         home: HomePage(),
         routes: <String, WidgetBuilder>{
-          '/logged': (BuildContext context) => new LoggedPage(),
         });
   }
 }
@@ -52,13 +46,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Meetup'),
+        title: Text('Lleidahack - EventManager'),
       ),
       body: ListView(
         children: <Widget>[
-          Image.asset('assets/lleidalogo.png',
-            height: 500,
-            width: 500),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,23 +138,3 @@ class ApplicationState extends ChangeNotifier {
   }
 }
 
-class LoggedPage extends StatelessWidget {
-  const LoggedPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate back to first route when tapped.
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'logged_section.dart';
 import 'widgets.dart';
 
 enum ApplicationLoginState {
@@ -36,6 +37,9 @@ class Authentication extends StatelessWidget {
     if (this.loginState == ApplicationLoginState.loggedOut) {
       return Row(
         children: [
+          Image.asset('assets/lleidalogo.png',
+              height: 500,
+              width: 500),
           LoginForm(login: (email, password) {
             signInWithEmailAndPassword(email, password,
                     (e) => _showErrorDialog(context, 'Failed to sign in', e));
@@ -44,7 +48,7 @@ class Authentication extends StatelessWidget {
       );
     } else if (this.loginState == ApplicationLoginState.loggedIn) {
       return Row(children: [
-        //NoticeManager();
+        LoggedPage()
       ]);
 
     }
@@ -179,3 +183,5 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 }
+
+
