@@ -1,10 +1,18 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+
+
+
 
 class AddNewNew extends StatefulWidget {
   const AddNewNew({
     required this.save,
   });
+
   final void Function(String title) save;
 
   @override
@@ -17,7 +25,11 @@ class _AddNewNewState extends State<AddNewNew> {
       .orderBy('date')
       .snapshots();
   final _formKey = GlobalKey<FormState>();
-
+  final _titleController = TextEditingController();
+  final _topdescController = TextEditingController();
+  final _botdescController = TextEditingController();
+  final _dateController = TextEditingController();
+  final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -30,25 +42,102 @@ class _AddNewNewState extends State<AddNewNew> {
                   children: <Widget>[
                     Form(
                       key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: TextFormField(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: TextFormField(),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                  child: Text("Submitß"),
-                                  onPressed: () {
-                                    widget.save('casa');
-                                  })),
-                        ],
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            TextFormField(
+                              controller: _titleController,
+                              decoration: const InputDecoration(
+                                hintText: 'Nombre del evento',
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Introduce un titulo';
+                                }
+                                return null;
+                              },
+                            ),
+                            MaterialButton(
+                              color: Colors.blue,
+                              child: Text(
+                                "Seleccionar una miniatura",
+                                style: TextStyle(
+                                    color: Colors.white70, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () async {
+                                XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                              },
+                            ),
+
+                            TextFormField(
+                              controller: _dateController,
+                              decoration: const InputDecoration(
+                                hintText: 'Fecha del evento',
+                              ),
+                              onTap: () async {
+                                await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2015),
+                                  lastDate: DateTime(2025),
+                                ).then((selectedDate) {
+                                  if (selectedDate != null) {
+                                    _dateController.text =
+                                        DateFormat('dd-MM-yyyy').format(selectedDate);
+                                  }
+                                });
+                              },
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: _topdescController,
+                              decoration: const InputDecoration(
+                                hintText:
+                                    'Descripcion superior (antes de la foto)',
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Introduce una descripcion';
+                                }
+                                return null;
+                              },
+                            ),
+                            MaterialButton(
+                              color: Colors.blue,
+                              child: Text(
+                                "Seleccionar una foto de noticia",
+                                style: TextStyle(
+                                    color: Colors.white70, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () async {
+                                XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                              },
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: _botdescController,
+                              decoration: const InputDecoration(
+                                hintText:
+                                    'Descripción inferor (despues de la foto)',
+                              ),
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RaisedButton(
+                                    child: Text("Submit"),
+                                    onPressed: () {
+                                      widget.save('casa');
+                                    })),
+                          ],
+                        ),
                       ),
                     ),
                   ],
